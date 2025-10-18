@@ -1,6 +1,5 @@
 package me.catmi;
 
-// Giữ lại tất cả các import cần thiết cho chức năng mod hợp pháp
 import me.catmi.util.*;
 import me.catmi.util.config.LoadConfiguration;
 import me.catmi.util.config.LoadModules;
@@ -33,10 +32,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
+import javax.swing.*;
 import java.awt.*;
-
-// Đã loại bỏ các import không còn cần thiết sau khi xóa mã độc hại (javax.swing.*, java.io.*, java.security.*)
-// Giả định rằng Wrapper, PlayerUtil, GetCape, PastebinAPI, ReflectionFields, Stopper đã được chuyển về me.catmi.util.*
 
 @Mod(modid = Catmi.MODID, name = Catmi.FORGENAME, version = Catmi.MODVER, clientSideOnly = true)
 public class Catmi {
@@ -77,22 +74,19 @@ public class Catmi {
 		INSTANCE = this;
 	}
 
-	// ------------------------------------------------------------------------------------
-
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
-		// Khởi tạo và tải cấu hình cánh (Wings). Đã loại bỏ mã độc hại.
 		wingSettings = new WingSettings(new Configuration(event.getSuggestedConfigurationFile()));
 		wingSettings.loadConfig(); // Load all settings.
-		log.info("WingSettings initialized.");
-	}
 
-	// ------------------------------------------------------------------------------------
+		// NOTE: HWID/auth checks removed for safety.
+	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
-		// Đăng ký render cánh (Wings). Đã loại bỏ mã độc hại.
-		MinecraftForge.EVENT_BUS.register(new RenderWings(wingSettings)); 
+		MinecraftForge.EVENT_BUS.register(new RenderWings(wingSettings)); // Register wing renderer.
+
+		// NOTE: HWID/auth checks removed for safety.
 
 		eventProcessor = new EventProcessor();
 		eventProcessor.init();
@@ -100,7 +94,7 @@ public class Catmi {
 		fontRenderer = new CFontRenderer(new Font("Ariel", Font.PLAIN, 18), true, false);
 		fontRenderer2 = new OGCFONT(new Font("Ariel", Font.PLAIN, 18), true, false);
 
-		TpsUtils tpsUtils = new TpsUtils(); // Khởi tạo TPS utility
+		TpsUtils tpsUtils = new TpsUtils();
 
 		settingsManager = new SettingsManager();
 		log.info("Settings initialized!");
@@ -119,10 +113,9 @@ public class Catmi {
 		macroManager = new MacroManager();
 		log.info("Macros initialized!");
 
-		// Lưu cấu hình
 		saveConfiguration = new SaveConfiguration();
 		Runtime.getRuntime().addShutdownHook(new Stopper());
-		log.info("Config Save hook registered!");
+		log.info("Config Saved!");
 
 		loadConfiguration = new LoadConfiguration();
 		log.info("Config Loaded!");
@@ -134,20 +127,17 @@ public class Catmi {
 		rotationManager2 = new RotationManager2();
 
 		saveModules = new SaveModules();
-		// Stopper hook đã được đăng ký ở trên, không cần đăng ký lại.
-		
+		Runtime.getRuntime().addShutdownHook(new Stopper());
+		log.info("Modules Saved!");
+
 		loadModules = new LoadModules();
 		log.info("Modules Loaded!");
 
 		CommandManager.initCommands();
 		log.info("Commands initialized!");
 
-		// Đã loại bỏ mã độc hại trùng lặp lần thứ ba.
-
 		log.info("Initialization complete!\n");
 	}
-
-	// ------------------------------------------------------------------------------------
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
@@ -159,11 +149,17 @@ public class Catmi {
 		log.info("PostInitialization complete!\n");
 	}
 
-	// ------------------------------------------------------------------------------------
-
 	public static Catmi getInstance(){
 		return INSTANCE;
 	}
 
-	// Đã loại bỏ phương thức GetCapeLink() và Discord Webhook hoàn toàn.
+	/**
+	 * Safe placeholder for the original GetCapeLink method.
+	 * Kept so other modules calling Catmi.getInstance().GetCapeLink() compile.
+	 * This implementation intentionally does NOT send any external requests or webhooks.
+	 */
+	public void GetCapeLink() {
+		// Intentionally left safe/empty to avoid leaking user data.
+		log.info("GetCapeLink() called (NO-OP - HWID/webhook disabled).");
 	}
+}
