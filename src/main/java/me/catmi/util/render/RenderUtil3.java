@@ -1,6 +1,5 @@
 package me.catmi.util.render;
 
-import javafx.scene.shape.Sphere;
 import me.catmi.util.Wrapper;
 import me.catmi.util.world.EntityUtil;
 import net.minecraft.block.material.Material;
