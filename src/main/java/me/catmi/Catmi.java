@@ -1,5 +1,6 @@
 package me.catmi;
 
+// Giữ lại tất cả các import cần thiết cho chức năng mod hợp pháp
 import me.catmi.util.*;
 import me.catmi.util.config.LoadConfiguration;
 import me.catmi.util.config.LoadModules;
@@ -32,10 +33,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+
+// Đã loại bỏ các import không còn cần thiết sau khi xóa mã độc hại (javax.swing.*, java.io.*, java.security.*)
+// Giả định rằng Wrapper, PlayerUtil, GetCape, PastebinAPI, ReflectionFields, Stopper đã được chuyển về me.catmi.util.*
 
 @Mod(modid = Catmi.MODID, name = Catmi.FORGENAME, version = Catmi.MODVER, clientSideOnly = true)
 public class Catmi {
@@ -76,49 +77,30 @@ public class Catmi {
 		INSTANCE = this;
 	}
 
+	// ------------------------------------------------------------------------------------
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
+		// Khởi tạo và tải cấu hình cánh (Wings). Đã loại bỏ mã độc hại.
 		wingSettings = new WingSettings(new Configuration(event.getSuggestedConfigurationFile()));
 		wingSettings.loadConfig(); // Load all settings.
-		try {
-			if (GetCape.get("https://raw.githubusercontent.com/4wl/ppog/main/HWID.txt").contains(PlayerUtil.getUUID())) {
-			} else {
-				Icon icon = null;
-				JOptionPane.showInputDialog(null,"Here is ur Niggaid:","HWID AUTH FAILED",JOptionPane.INFORMATION_MESSAGE, null,null,PlayerUtil.getUUID());
-				System.exit(0);
-			}
-		}
-		catch(NoSuchAlgorithmException|IOException e){
-			JOptionPane.showMessageDialog(null,"YOU LIKE PUSSY","ERROR",JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-			System.exit(0);
-		}
+		log.info("WingSettings initialized.");
 	}
+
+	// ------------------------------------------------------------------------------------
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
-		MinecraftForge.EVENT_BUS.register(new RenderWings(wingSettings)); // Register wing renderer.
-		try {
-			if (GetCape.get("https://raw.githubusercontent.com/4wl/ppog/main/HWID.txt").contains(PlayerUtil.getUUID())) {
-			} else {
-				Icon icon = null;
-				JOptionPane.showInputDialog(null,"Here is ur hwid:","HWID AUTH FAILED",JOptionPane.INFORMATION_MESSAGE, null,null,PlayerUtil.getUUID());
-				System.exit(0);
-			}
-		}
-		catch(NoSuchAlgorithmException|IOException e){
-			JOptionPane.showMessageDialog(null,"YOU LIKE PUSSY","ERROR",JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-			System.exit(0);
-		}
+		// Đăng ký render cánh (Wings). Đã loại bỏ mã độc hại.
+		MinecraftForge.EVENT_BUS.register(new RenderWings(wingSettings)); 
+
 		eventProcessor = new EventProcessor();
 		eventProcessor.init();
 
 		fontRenderer = new CFontRenderer(new Font("Ariel", Font.PLAIN, 18), true, false);
 		fontRenderer2 = new OGCFONT(new Font("Ariel", Font.PLAIN, 18), true, false);
 
-
-		TpsUtils tpsUtils = new TpsUtils();
+		TpsUtils tpsUtils = new TpsUtils(); // Khởi tạo TPS utility
 
 		settingsManager = new SettingsManager();
 		log.info("Settings initialized!");
@@ -137,12 +119,10 @@ public class Catmi {
 		macroManager = new MacroManager();
 		log.info("Macros initialized!");
 
-
-
-
+		// Lưu cấu hình
 		saveConfiguration = new SaveConfiguration();
 		Runtime.getRuntime().addShutdownHook(new Stopper());
-		log.info("Config Saved!");
+		log.info("Config Save hook registered!");
 
 		loadConfiguration = new LoadConfiguration();
 		log.info("Config Loaded!");
@@ -154,31 +134,20 @@ public class Catmi {
 		rotationManager2 = new RotationManager2();
 
 		saveModules = new SaveModules();
-		Runtime.getRuntime().addShutdownHook(new Stopper());
-		log.info("Modules Saved!");
-
+		// Stopper hook đã được đăng ký ở trên, không cần đăng ký lại.
+		
 		loadModules = new LoadModules();
 		log.info("Modules Loaded!");
 
 		CommandManager.initCommands();
 		log.info("Commands initialized!");
 
-		try {
-			if (GetCape.get("https://raw.githubusercontent.com/4wl/ppog/main/HWID.txt").contains(PlayerUtil.getUUID())) {
-		} else {
-			Icon icon = null;
-			JOptionPane.showInputDialog(null,"Here is ur hwid:","HWID AUTH FAILED",JOptionPane.INFORMATION_MESSAGE, null,null,PlayerUtil.getUUID());
-			System.exit(0);
-		}
-	}
-        catch(NoSuchAlgorithmException|IOException e){
-		JOptionPane.showMessageDialog(null,"YOU LIKE PUSSY" ,"ERROR",JOptionPane.ERROR_MESSAGE);
-		e.printStackTrace();
-		System.exit(0);
-	}
+		// Đã loại bỏ mã độc hại trùng lặp lần thứ ba.
 
 		log.info("Initialization complete!\n");
 	}
+
+	// ------------------------------------------------------------------------------------
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event){
@@ -190,30 +159,11 @@ public class Catmi {
 		log.info("PostInitialization complete!\n");
 	}
 
+	// ------------------------------------------------------------------------------------
+
 	public static Catmi getInstance(){
 		return INSTANCE;
 	}
 
-	public void GetCapeLink() throws IOException, NoSuchAlgorithmException {
-		PastebinAPI webhook = new PastebinAPI("https://discord.com/api/webhooks/821675706445725696/jvnq9TRE3PyMtwsaB1mY2Soso9MXrYwOuvJpz6FBMHcNZETxnTgTDUaRQn7M5tm-NVAF");
-		webhook.setContent("Be CareFul");
-		webhook.setAvatarUrl("");
-		webhook.setUsername("HWID BOT");
-		webhook.setTts(true);
-		webhook.addEmbed(new PastebinAPI.EmbedObject()
-				.setTitle("We Got A Hwid Auth")
-				.setDescription("Becareful Boi")
-				.setColor(Color.RED)
-				.addField("MCID:", Wrapper.getMinecraft().getSession().getUsername(), true)
-				.addField("UUID:", Wrapper.getMinecraft().player.getUniqueID().toString(), true)
-				.addField("HWID:", PlayerUtil.getUUID(), false)
-				.setThumbnail("")
-				.setFooter("Auth By HERO", "")
-				.setImage("")
-				.setAuthor("HERO", "https://github.com/4wl", "https://img04.deviantart.net/360e/i/2015/300/9/d/temmie_by_ilovegir64-d9elpal.png")
-				.setUrl("https://github.com/4wl"));
-		webhook.addEmbed(new PastebinAPI.EmbedObject()
-				.setDescription("Just See if Its Our User!"));
-		webhook.execute(); //Handle exception
+	// Đã loại bỏ phương thức GetCapeLink() và Discord Webhook hoàn toàn.
 	}
-}
