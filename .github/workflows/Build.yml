@@ -1,40 +1,43 @@
-steps:
-  # 1. Checkout mã nguồn
-  - name: Checkout repository
-    uses: actions/checkout@v4
-    
-  # 2. Thiết lập Java 8 (BẮT BUỘC cho 1.12.2)
-  - name: Set up Java 8
-    uses: actions/setup-java@v4
-    with:
-      distribution: 'temurin'
-      java-version: '8'
-      cache: 'gradle'
+name: Build Catmi 1.12.2
 
-  # 3. FIX LỖI TẢI XUỐNG GRADLE: Đảm bảo Gradle 4.8.1 được tải về
-  # Forge 1.12.2 thường gặp vấn đề khi tải Gradle cũ
-  - name: Download Gradle 4.8.1 manually
-    run: |
-      mkdir -p ~/.gradle/wrapper/dists/gradle-4.8.1-bin/d84z6g19qff4g5d3q92383h9k/
-      curl -L "https://services.gradle.org/distributions/gradle-4.8.1-bin.zip" -o "/tmp/gradle-4.8.1-bin.zip"
-      unzip /tmp/gradle-4.8.1-bin.zip -d ~/.gradle/wrapper/dists/gradle-4.8.1-bin/d84z6g19qff4g5d3q92383h9k/
-    
-  # 4. Cấp quyền thực thi và thiết lập môi trường Minecraft
-  - name: Setup Minecraft Environment
-    run: |
-      chmod +x gradlew
-      # Chạy setup để tải các dependency của Minecraft và Forge
-      ./gradlew setupDecompWorkspace --refresh-dependencies
-    
-  # 5. Chạy lệnh build chính thức
-  - name: Build and Package Mod
-    run: ./gradlew build reobfJar --stacktrace
-    
-  # 6. Tải lên Artifact
-  - name: Upload Mod Artifact
-    uses: actions/upload-artifact@v4
-    with:
-      name: CatmiRewrite-1.12.2-mod
-      path: build/libs/*-universal.jar
-      if-no-files-found: error
-      retention-days: 7
+# Thêm trigger để có nút build
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout mã nguồn
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Thiết lập môi trường Java 8
+      - name: Set up Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'gradle'
+
+      # 3. Cấp quyền thực thi cho gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # 4. Pre-setup Minecraft environment
+      - name: Pre-setup Minecraft environment
+        run: ./gradlew setupDecompWorkspace --refresh-dependencies
+
+      # 5. Chạy lệnh build chính thức
+      - name: Build with Gradle
+        run: ./gradlew build reobfJar --stacktrace
+
+      # 6. Tải lên Artifact
+      - name: Upload Mod Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CatmiRewrite-1.12.2-mod
+          path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 7
