@@ -1,7 +1,8 @@
 package me.catmi.module.modules.misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import javafx.util.Pair;
+// import javafx.util.Pair; // Xóa import JavaFX
+import org.apache.commons.lang3.tuple.Pair; // Thay bằng Commons Lang3
 import me.catmi.module.Module;
 import me.catmi.settings.Setting;
 import net.minecraft.block.Block;
@@ -25,7 +26,6 @@ public class AutoReplanish extends Module {
     public void setup() {
         threshold = registerInteger("Threshold","Threshold",4,0,20);
         tickDelay = registerInteger("tickDelay","tickDelay",4,0,20);
-
     }
 
     private static Map<Integer, ItemStack> getInventory() {
@@ -37,9 +37,9 @@ public class AutoReplanish extends Module {
     }
 
     private static Map<Integer, ItemStack> getInventorySlots(int current, final int last) {
-        final Map<Integer, ItemStack> fullInventorySlots = new HashMap<Integer, ItemStack>();
+        final Map<Integer, ItemStack> fullInventorySlots = new HashMap<>();
         while (current <= last) {
-            fullInventorySlots.put(current, (ItemStack)AutoReplanish.mc.player.inventoryContainer.getInventory().get(current));
+            fullInventorySlots.put(current, AutoReplanish.mc.player.inventoryContainer.getInventory().get(current));
             ++current;
         }
         return fullInventorySlots;
@@ -62,8 +62,8 @@ public class AutoReplanish extends Module {
         if (slots == null) {
             return;
         }
-        final int inventorySlot = slots.getKey();
-        final int hotbarSlot = slots.getValue();
+        final int inventorySlot = slots.getLeft(); // getLeft thay cho getKey
+        final int hotbarSlot = slots.getRight();  // getRight thay cho getValue
         AutoReplanish.mc.playerController.windowClick(0, inventorySlot, 0, ClickType.PICKUP, (EntityPlayer)AutoReplanish.mc.player);
         AutoReplanish.mc.playerController.windowClick(0, hotbarSlot, 0, ClickType.PICKUP, (EntityPlayer)AutoReplanish.mc.player);
         AutoReplanish.mc.playerController.windowClick(0, inventorySlot, 0, ClickType.PICKUP, (EntityPlayer)AutoReplanish.mc.player);
@@ -90,7 +90,7 @@ public class AutoReplanish extends Module {
                 if (inventorySlot == -1) {
                     continue;
                 }
-                returnPair = new Pair<Integer, Integer>(inventorySlot, hotbarSlot.getKey());
+                returnPair = Pair.of(inventorySlot, hotbarSlot.getKey()); // Pair.of thay cho new Pair<>
             }
         }
         return returnPair;
@@ -108,7 +108,7 @@ public class AutoReplanish extends Module {
                 if (!this.isCompatibleStacks(hotbarStack, inventoryStack)) {
                     continue;
                 }
-                final int currentStackSize = ((ItemStack)AutoReplanish.mc.player.inventoryContainer.getInventory().get((int)entry.getKey())).getCount();
+                final int currentStackSize = AutoReplanish.mc.player.inventoryContainer.getInventory().get(entry.getKey()).getCount();
                 if (smallestStackSize <= currentStackSize) {
                     continue;
                 }
