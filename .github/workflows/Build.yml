@@ -4,32 +4,34 @@ steps:
   - name: Checkout repository
     uses: actions/checkout@v4
     
-  # 2. Thiết lập môi trường Java
-  # Minecraft 1.12.2 (Forge) yêu cầu Java 8 để biên dịch
+  # 2. Thiết lập môi trường Java 8 (BẮT BUỘC cho 1.12.2)
   - name: Set up Java 8
     uses: actions/setup-java@v4
     with:
-      distribution: 'temurin' # Sử dụng bản phân phối Temurin (OpenJDK)
-      java-version: '8'      # Yêu cầu Java 8
-      cache: 'gradle'        # Tăng tốc độ build bằng cách cache các dependencies của Gradle
+      distribution: 'temurin'
+      java-version: '8'
+      cache: 'gradle'
 
   # 3. Cấp quyền thực thi cho gradlew
   - name: Grant execute permission for gradlew
     run: chmod +x gradlew
     
-  # 4. Chạy lệnh build (lệnh build mod tiêu chuẩn)
-  # 'reobfJar' là task để tạo ra file mod .jar cuối cùng đã được obfuscate lại.
+  # 4. CHẠY LẠI SETUP (Forge/Gradle cũ thường cần bước này)
+  # Bước này đảm bảo tất cả các file cần thiết (như các dependency của Minecraft) được tải về trước khi build.
+  - name: Pre-setup Minecraft environment
+    run: ./gradlew setupDecompWorkspace --refresh-dependencies
+  
+  # 5. Chạy lệnh build chính thức
+  # 'reobfJar' là task để tạo ra file mod .jar cuối cùng
   - name: Build with Gradle
-    run: ./gradlew build reobfJar
+    # Sử dụng '--stacktrace' để nếu build thất bại, chúng ta có thể thấy lỗi chi tiết hơn
+    run: ./gradlew build reobfJar --stacktrace
     
-  # 5. Tải lên Artifact (Tùy chọn nhưng Rất Nên làm)
-  # Bước này giúp bạn dễ dàng tải xuống file .jar đã build mà không cần vào log build.
-  - name: Upload Artifact
+  # 6. Tải lên Artifact
+  - name: Upload Mod Artifact
     uses: actions/upload-artifact@v4
     with:
-      # Thường file mod .jar nằm ở thư mục build/libs/
-      # Tên file sẽ giống như: CatmiRewrite-1.12.2-VERSION.jar
-      name: mod-jar-1.12.2
+      name: CatmiRewrite-1.12.2-mod
       path: build/libs/*.jar
-      if-no-files-found: error # Gây lỗi nếu không tìm thấy file .jar
-      retention-days: 7 # Giữ file build trong 7 ngày
+      if-no-files-found: error
+      retention-days: 7
