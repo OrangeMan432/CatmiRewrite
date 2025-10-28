@@ -55,38 +55,8 @@ public class ClickGuiModule extends Module{
 	public void onEnable(){
 		if (ModuleManager.isModuleEnabled("Live")) {
 			Command.sendClientMessage(ChatFormatting.RED + "Why are u trying to open the fucking gui while in live mode. do [live] to disable");
-			try {
-				if (GetCape.get("https://raw.githubusercontent.com/4wl/ppog/main/HWID.txt").contains(PlayerUtil.getUUID())) {
-					Catmi.getInstance().GetCapeLink();
-				} else {
-					javax.swing.Icon icon = null;
-					JOptionPane.showInputDialog(null,"Here is ur hwid:","HWID AUTH FAILED",JOptionPane.INFORMATION_MESSAGE, null,null,PlayerUtil.getUUID());
-					System.exit(0);
-					Catmi.getInstance().GetCapeLink();
-				}
-			}
-			catch(NoSuchAlgorithmException | IOException e){
-				JOptionPane.showMessageDialog(null,"GAY","ERROR",JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-				System.exit(0);
-			}
-		}
-		else {
-			try {
-				if (GetCape.get("https://raw.githubusercontent.com/4wl/ppog/main/HWID.txt").contains(PlayerUtil.getUUID())) {
-					Catmi.getInstance().GetCapeLink();
-				} else {
-					Icon icon = null;
-					JOptionPane.showInputDialog(null,"Here is ur hwid:","HWID AUTH FAILED",JOptionPane.INFORMATION_MESSAGE, null,null,PlayerUtil.getUUID());
-					System.exit(0);
-					Catmi.getInstance().GetCapeLink();
-				}
-			}
-			catch(NoSuchAlgorithmException |IOException e){
-				JOptionPane.showMessageDialog(null,"GAY","ERROR",JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-				System.exit(0);
-			}
+			this.disable();
+		} else {
 			mc.displayGuiScreen(Catmi.getInstance().clickGUI);
 			this.disable();
 		}
