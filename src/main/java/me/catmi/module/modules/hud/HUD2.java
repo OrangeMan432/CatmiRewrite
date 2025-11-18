@@ -149,7 +149,7 @@ public class  HUD2
         int x2 = resolution.getScaledWidth();
         if (this.watermark.getValue()) {
             if (this.watermark.getValue()) {
-                text = Catmi.MODNAME + " " + "1.2.4";
+                text = Catmi.MODNAME + " " + Catmi.MODVER;
                 FontUtils.drawStringWithShadow2(HUD.customFont.getValue(), text, 2, posY2, rainbow.getValue() ? RainbowUtil.rainbow(counter1[0] * RainbowOffset.offset.getValue()) : new Color(red.getValue(), green.getValue(), blue.getValue(), 255).getRGB());
             }
         }

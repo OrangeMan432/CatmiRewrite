@@ -37,10 +37,10 @@ import java.awt.*;
 
 @Mod(modid = Catmi.MODID, name = Catmi.FORGENAME, version = Catmi.MODVER, clientSideOnly = true)
 public class Catmi {
-	public static final String MODID = "neko";
-	public static String MODNAME = "Neko";
-	public static final String MODVER = "v1";
-	public static final String FORGENAME = "Neko";
+	public static final String MODID = "catmi";
+	public static String MODNAME = "Catmi";
+	public static final String MODVER = "v1.2.4";
+	public static final String FORGENAME = "Catmi";
 
 	public static final Logger log = LogManager.getLogger(MODNAME);
 
