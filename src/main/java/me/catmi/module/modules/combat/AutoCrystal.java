@@ -60,7 +60,7 @@ import java.util.stream.Collectors;
 
 public class AutoCrystal extends Module {
     public AutoCrystal() {
-        super("ButtomCrystal", Category.Combat);
+        super("AutoCrystal", Category.Combat);
     }
 
     private BlockPos render;
@@ -748,7 +748,7 @@ public class AutoCrystal extends Module {
         isPlacing = false;
         isBreaking = false;
         if (chat.getValue() && mc.player != null) {
-            Command.sendRawMessage("\u00A7b[Neko]" + "\u00A7rButtomCrystal ON");
+            Command.sendRawMessage("\u00A7b[Neko]" + "\u00A7rAutoCrystal ON");
         }
     }
 
@@ -763,7 +763,7 @@ public class AutoCrystal extends Module {
         isPlacing = false;
         isBreaking = false;
         if (chat.getValue()) {
-            Command.sendRawMessage("\u00A7b[Neko]" + "\u00A7aButtomCrystal OFF");
+            Command.sendRawMessage("\u00A7b[Neko]" + "\u00A7aAutoCrystal OFF");
         }
         target = null;
     }

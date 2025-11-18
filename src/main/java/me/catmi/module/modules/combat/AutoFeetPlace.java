@@ -292,6 +292,11 @@ public class AutoFeetPlace extends Module {
 
 		int obsidianSlot = findObsidianSlot();
 
+		if (obsidianSlot == -1){
+			noObby = true;
+			return false;
+		}
+
 		if (mc.player.inventory.currentItem != obsidianSlot){
 			obbyHotbarSlot = obsidianSlot;
 
@@ -303,14 +308,9 @@ public class AutoFeetPlace extends Module {
 			isSneaking = true;
 		}
 
-		if (obsidianSlot == -1){
-			noObby = true;
-			return false;
-		}
-
 		boolean stoppedAC = false;
 
-		if (ModuleManager.isModuleEnabled("AutoCrystalGS")){
+		if (ModuleManager.isModuleEnabled("AutoCrystal")){
 			AutoCrystal.stopAC = true;
 			stoppedAC = true;
 		}
