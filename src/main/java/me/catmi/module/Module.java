@@ -75,13 +75,13 @@ public abstract class Module {
 	public void enable(){
 		setEnabled(true);
 		this.animPos = -1.0f;
-		Command.sendClientMessage(this.name + ChatFormatting.GREEN + " enabled!");
+		Command.sendClientMessage(ChatFormatting.BOLD + this.name + ChatFormatting.RESET + ChatFormatting.GREEN + " enabled!");
 		onEnable();
 	}
 
 	public void disable(){
 		setEnabled(false);
-		Command.sendClientMessage(this.name + ChatFormatting.RED + " disabled!");
+		Command.sendClientMessage(ChatFormatting.BOLD + this.name + ChatFormatting.RESET + ChatFormatting.RED + " disabled!");
 		onDisable();
 	}
 

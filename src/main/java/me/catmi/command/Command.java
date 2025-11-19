@@ -1,5 +1,6 @@
 package me.catmi.command;
 
+import me.catmi.Catmi;
 import me.catmi.module.ModuleManager;
 import me.catmi.module.modules.hud.Notifications;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -26,7 +27,7 @@ public abstract class Command {
 		else {
 			if (!(mc.player == null)) {
 				if (MsgWaterMark)
-					mc.player.sendMessage(new TextComponentString(ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "Catmi" + ChatFormatting.GRAY + "] " + ChatFormatting.RESET + cf + message));
+					mc.player.sendMessage(new TextComponentString(ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + Catmi.MODNAME + ChatFormatting.GRAY + "] " + ChatFormatting.RESET + cf + message));
 				else
 					mc.player.sendMessage(new TextComponentString(cf + message));
 			}
