@@ -70,7 +70,7 @@ public class AutoTotem extends Module{
 
 	@Override
 	public String getHudInfo(){
-		String t = "[" + ChatFormatting.WHITE + " You Have " + totems + ChatFormatting.WHITE + "]";
+		String t = "[" + ChatFormatting.WHITE + totems + ChatFormatting.WHITE + "]";
 		return t;
 	}
 }

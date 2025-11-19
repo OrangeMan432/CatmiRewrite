@@ -24,11 +24,9 @@ public class ToggleCommand extends Command{
 				if (m.isEnabled()){
 					m.disable();
 					found = true;
-						Command.sendClientMessage(m.getName() + ChatFormatting.RED + " disabled!");
 				} else if (!m.isEnabled()){
 					m.enable();
 					found = true;
-						Command.sendClientMessage(m.getName() + ChatFormatting.GREEN + " enabled!");
 				}
 			}
 		});

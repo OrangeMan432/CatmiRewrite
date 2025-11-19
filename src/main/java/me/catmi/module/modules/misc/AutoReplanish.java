@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AutoReplanish extends Module {
-    public AutoReplanish(){super("AutoReplanish", Category.Misc);
+    public AutoReplanish(){super("AutoReplenish", Category.Misc);
         this.delayStep = 0;}
     Setting.Integer threshold;
     Setting.Integer tickDelay;

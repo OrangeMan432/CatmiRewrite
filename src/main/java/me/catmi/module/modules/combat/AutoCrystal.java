@@ -83,7 +83,6 @@ public class AutoCrystal extends Module {
     Setting.Boolean raytrace;
     Setting.Boolean rotate;
     Setting.Boolean spoofRotations;
-    Setting.Boolean chat;
     Setting.Boolean showDamage;
     Setting.Boolean pausewhileeating;
     Setting.Boolean singlePlace;
@@ -163,7 +162,6 @@ public class AutoCrystal extends Module {
         rotate = registerBoolean("Rotate", "Rotate", true);
         spoofRotations = registerBoolean("Spoof Angles", "SpoofAngles", true);
         AK47 = registerBoolean("AK47", "AK47", true);
-        chat = registerBoolean("Toggle Msg", "Msg", true);
         hudDisplay = registerMode("HUD", "HUD", hudModes, "Mode");
         color = registerColor("Color", "Color");
     }
@@ -747,9 +745,6 @@ public class AutoCrystal extends Module {
         isActive = false;
         isPlacing = false;
         isBreaking = false;
-        if (chat.getValue() && mc.player != null) {
-            Command.sendRawMessage("\u00A7b[Neko]" + "\u00A7rAutoCrystal ON");
-        }
     }
 
     @Override
@@ -762,9 +757,6 @@ public class AutoCrystal extends Module {
         isActive = false;
         isPlacing = false;
         isBreaking = false;
-        if (chat.getValue()) {
-            Command.sendRawMessage("\u00A7b[Neko]" + "\u00A7aAutoCrystal OFF");
-        }
         target = null;
     }
 

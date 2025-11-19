@@ -30,11 +30,13 @@ public class Speed extends Module{
 	public Timer waitTimer = new Timer();
 
 	Setting.Boolean ice;
+	Setting.Boolean jump;
 	Setting.Mode Mode;
 	Setting.Double speed;
 
 	public void setup(){
 		ice = registerBoolean("Ice", "Ice", true);
+		jump = registerBoolean("Jump", "Jump", true);
 		ArrayList<String> modes = new ArrayList<>();
 		modes.add("Strafe");
 		modes.add("YPort");
@@ -93,7 +95,9 @@ public class Speed extends Module{
 				}
 				if (mc.player.onGround){
 					EntityUtil.setTimer(1.15f);
-					mc.player.jump();
+					if (this.jump.getValue()) {
+						mc.player.jump();
+					}
 					boolean ice = mc.world.getBlockState(new BlockPos(mc.player.posX, mc.player.posY - 1, mc.player.posZ)).getBlock() instanceof BlockIce || mc.world.getBlockState(new BlockPos(mc.player.posX, mc.player.posY - 1, mc.player.posZ)).getBlock() instanceof BlockPackedIce;
 					MotionUtils.setSpeed(mc.player, MotionUtils.getBaseMoveSpeed() + (ice ? 0.3 : 0.06));
 				} else{
@@ -115,10 +119,12 @@ public class Speed extends Module{
 		if (Mode.getValue().equalsIgnoreCase("Strafe")){
 			double motionY = 0.42f;
 			if (mc.player.onGround && MotionUtils.isMoving(mc.player) && waitTimer.hasReached(300)){
-				if (mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
-					motionY += (mc.player.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1f;
+				if (this.jump.getValue()) {
+					if (mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
+						motionY += (mc.player.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1f;
+					}
+					event.setY(mc.player.motionY = motionY);
 				}
-				event.setY(mc.player.motionY = motionY);
 				moveSpeed = MotionUtils.getBaseMoveSpeed() * (EntityUtil.isColliding(0, -0.5, 0) instanceof BlockLiquid && !EntityUtil.isInLiquid() ? 0.9 : 1.901);
 				doSlow = true;
 				waitTimer.reset();
