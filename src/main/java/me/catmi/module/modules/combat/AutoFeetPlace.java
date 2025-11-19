@@ -29,10 +29,9 @@ import static me.catmi.util.world.BlockUtils.faceVectorPacketInstant;
 
 public class AutoFeetPlace extends Module {
 	public AutoFeetPlace(){
-		super("AutoFeetPlace", Category.Combat);
+		super("Surround", Category.Combat);
 	}
 
-	Setting.Boolean chatMsg;
 	Setting.Boolean triggerSurround;
 	Setting.Boolean shiftOnly;
 	Setting.Boolean rotate;
@@ -53,7 +52,6 @@ public class AutoFeetPlace extends Module {
 		tickDelay = registerInteger("Tick Delay", "TickDelay", 5, 0, 10);
 		timeOutTicks = registerInteger("Timeout Ticks", "TimeoutTicks", 40, 1, 100);
 		blocksPerTick = registerInteger("Blocks Per Tick", "BlocksPerTick", 4, 0, 8);
-		chatMsg = registerBoolean("Chat Msgs", "ChatMsgs", true);
 	}
 
 	private int cachedHotbarSlot = -1;
@@ -77,10 +75,6 @@ public class AutoFeetPlace extends Module {
 			return;
 		}
 
-		if (chatMsg.getValue()){
-			Command.sendRawMessage("\u00A7aSurround turned ON!");
-		}
-
 		if (centerPlayer.getValue() && mc.player.onGround){
 			mc.player.motionX = 0;
 			mc.player.motionZ = 0;
@@ -97,13 +91,8 @@ public class AutoFeetPlace extends Module {
 			return;
 		}
 
-		if (chatMsg.getValue()){
-			if (noObby){
-				Command.sendRawMessage("\u00A7cNo obsidian detected... Surround turned OFF!");
-			}
-			else {
-				Command.sendRawMessage("\u00A7cSurround turned OFF!");
-			}
+		if (noObby){
+			Command.sendClientMessage("\u00A7cNo obsidian detected... Surround turned OFF!");
 		}
 
 		if (obbyHotbarSlot != cachedHotbarSlot && cachedHotbarSlot != -1){
@@ -161,6 +150,7 @@ public class AutoFeetPlace extends Module {
 		}
 
 		if (disableOnJump.getValue() && !(mc.player.onGround)){
+			disable();
 			return;
 		}
 

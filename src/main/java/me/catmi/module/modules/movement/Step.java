@@ -18,6 +18,7 @@ public class Step extends Module{
 	Setting.Double height;
 	Setting.Boolean timer;
 	Setting.Boolean reverse;
+	Setting.Boolean allowSpeed;
 	Setting.Mode mode;
 
 	public void setup(){
@@ -27,6 +28,7 @@ public class Step extends Module{
 		height = registerDouble("Height", "Height", 2.5, 0.5, 2.5);
 		timer = registerBoolean("Timer", "Timer", false);
 		reverse = registerBoolean("Reverse", "Reverse", false);
+		allowSpeed = registerBoolean("Allow Speed", "Allow Speed", false);
 		mode = registerMode("Modes", "Modes", modes, "Normal");
 	}
 
@@ -36,8 +38,10 @@ public class Step extends Module{
 			return;
 		}
 
-		if (ModuleManager.isModuleEnabled("Speed"))
-			return;
+		if (!this.allowSpeed.getValue()) {
+			if (ModuleManager.isModuleEnabled("Speed"))
+				return;
+		}
 
 		if (mode.getValue().equalsIgnoreCase("Normal")){
 			if (timer.getValue()){

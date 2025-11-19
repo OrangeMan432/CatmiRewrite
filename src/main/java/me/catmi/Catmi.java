@@ -77,16 +77,12 @@ public class Catmi {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
 		wingSettings = new WingSettings(new Configuration(event.getSuggestedConfigurationFile()));
-		wingSettings.loadConfig(); // Load all settings.
-
-		// NOTE: HWID/auth checks removed for safety.
+		wingSettings.loadConfig();
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
-		MinecraftForge.EVENT_BUS.register(new RenderWings(wingSettings)); // Register wing renderer.
-
-		// NOTE: HWID/auth checks removed for safety.
+		MinecraftForge.EVENT_BUS.register(new RenderWings(wingSettings));
 
 		eventProcessor = new EventProcessor();
 		eventProcessor.init();

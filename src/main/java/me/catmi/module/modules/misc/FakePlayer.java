@@ -15,7 +15,7 @@ public class FakePlayer
         extends Module {
     private List<Integer> fakePlayerIdList = null;
     Setting.Mode mode;
-    private static final String[][] fakePlayerInfo = new String[][]{{"66666666-6666-6666-6666-666666666600", "nigga0", "0", "0"}};
+    private static final String[][] fakePlayerInfo = new String[][]{{"66666666-6666-6666-6666-666666666600", "fakeplayer0", "0", "0"}};
 
     public FakePlayer() {
         super("FakePlayer", Category.Misc);

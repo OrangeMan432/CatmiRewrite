@@ -24,10 +24,12 @@ public abstract class Command {
 			return;
 		}
 		else {
-			if (MsgWaterMark)
-				mc.player.sendMessage(new TextComponentString(ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "Catmi" + ChatFormatting.GRAY + "] " + ChatFormatting.RESET + cf + message));
-			else
-				mc.player.sendMessage(new TextComponentString(cf + message));
+			if (!(mc.player == null)) {
+				if (MsgWaterMark)
+					mc.player.sendMessage(new TextComponentString(ChatFormatting.GRAY + "[" + ChatFormatting.WHITE + "Catmi" + ChatFormatting.GRAY + "] " + ChatFormatting.RESET + cf + message));
+				else
+					mc.player.sendMessage(new TextComponentString(cf + message));
+			}
 		}
 	}
 

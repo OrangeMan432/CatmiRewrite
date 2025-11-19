@@ -8,9 +8,11 @@ public class ReverseStep extends Module{
 	public ReverseStep(){super("ReverseStep", Category.Movement);}
 
 	Setting.Double height;
+	Setting.Boolean allowSpeed;
 
 	public void setup(){
 		height = registerDouble("Height", "Height", 2.5, 0.5, 2.5);
+		allowSpeed = registerBoolean("Allow Speed", "Allow Speed", false);
 	}
 
 	public void onUpdate(){
@@ -19,8 +21,10 @@ public class ReverseStep extends Module{
 			return;
 		}
 
-		if (ModuleManager.isModuleEnabled("Speed"))
-			return;
+		if (!this.allowSpeed.getValue()) {
+			if (ModuleManager.isModuleEnabled("Speed"))
+				return;
+		}
 
 		if (mc.player != null && mc.player.onGround && !mc.player.isInWater() && !mc.player.isOnLadder()){
 			for (double y = 0.0; y < this.height.getValue() + 0.5; y += 0.01){
